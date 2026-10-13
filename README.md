@@ -1,140 +1,84 @@
-# 🛡️ Surakhsa OS
+# Suraksha OS
 
- An AI-powered disaster preparedness and emergency response platform for schools and colleges.
+**Learn. Practice. Prepare.**
 
-# 📌 Overview
+A disaster-preparedness prototype for schools, with learning activities, decision-based simulations, and dashboards for students, teachers, administrators, and district staff.
 
-Surakhsa OS is a digital safety platform designed to help educational institutions prepare students and staff for disasters before they happen.
+Built with **Next.js 16, React 19, TypeScript, Tailwind CSS, Zustand, Recharts, and Supabase integration**.
 
-Instead of treating disaster preparedness as a one-time activity, Surakhsa OS combines:
+## What to explore
 
-- 📚 Interactive disaster education
-- 🎮 Gamified learning
-- 🚨 Emergency alerts
-- 🧑‍🏫 Teacher and administrator dashboards
-- 🏫 School-specific evacuation plans
-- 🗺️ Digital evacuation maps
-- 🧪 Virtual disaster simulations
-- 🔥 Real-time emergency/drill mode
-- 📊 Preparedness and performance analytics
-- 📱 Offline access to critical safety information
+| Area | Features |
+| --- | --- |
+| Student | Learning modules, simulations, results, and preparedness recommendations |
+| Teacher | Classes, drill management, and student reports |
+| Administration | School/building setup, scenarios, drills, and reports |
+| District | A district-level dashboard |
+| Supporting tools | Preparedness scoring, evacuation logic, charts, and PDF export |
 
-The goal is simple:
-Learn → Practice → Prepare → Respond**
+## Run locally
 
----
+The Next.js application is nested inside `Practice/suraksha-os`. Use Node.js 22 or newer and npm.
 
-# 🎯Problem
+```bash
+git clone https://github.com/Stackforge-07/Suraksha-Updated.git
+cd Suraksha-Updated/Practice/suraksha-os
+npm ci
+npm run dev
+```
 
-Students and staff are often taught disaster procedures theoretically, but they may not know how to react during an actual emergency.
+Open [localhost:3000](http://localhost:3000), then visit `/login`.
 
-Surakhsa OS provides a platform where users can:
+### Try the staff demo
 
-1. Learn what to do during different disasters.
-2. Practice decisions through interactive simulations.
-3. Participate in school-wide emergency drills.
-4. Receive clear emergency instructions.
-5. Follow location-specific evacuation routes.
-6. Track preparedness and identify weak areas.
+Choose **Faculty & Admin**, then use a quick-login account or one of these seeded credentials:
 
----
+| Role | Email | Demo password |
+| --- | --- | --- |
+| Teacher | `teacher@demo.com` | `demo123` |
+| Administrator | `admin@demo.com` | `demo123` |
+| District authority | `district@demo.com` | `demo123` |
 
-# 🚀Key Features
+These are public demo accounts defined in [auth.ts](Practice/suraksha-os/src/lib/auth.ts). Student Access uses a name and class selection.
 
-# 📚 Interactive Learning
+### Optional Supabase configuration
 
-Students can learn about different disasters through structured modules and scenario-based lessons.
+The application includes Supabase persistence helpers. To configure them, create `.env.local` inside `Practice/suraksha-os`:
 
-Examples:
+```dotenv
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
 
-- Fire
-- Flood
-- Earthquake
-- Cyclone
-- Other disaster scenarios
+Review [the database schema](Practice/suraksha-os/supabase/schema.sql) before applying it to a development Supabase project. Restart the development server after changing environment variables. Use the public anon key here, never a service-role key.
 
-# 🎮 Gamified Preparedness
+Without these variables, the Supabase client is disabled. Database-backed operations require configuration; the seeded staff login is implemented separately.
 
-Learning is made interactive using:
+## Development commands
 
-- XP
-- Levels
-- Scores
-- Badges
-- Progress tracking
-- Scenario-based challenges
+Run these from `Practice/suraksha-os`:
 
-This encourages students to repeatedly practice safety procedures.
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Start the development server |
+| `npm run build` | Create a production build |
+| `npm start` | Serve the production build |
+| `npm run lint` | Run ESLint |
 
-# 🧪 Virtual Disaster Simulations
+## Code map
 
-Students can enter simulated emergency situations and make decisions.
+```text
+Practice/suraksha-os/
+├── src/app/           Pages and role dashboards
+├── src/components/    Shared interface components
+├── src/lib/data/      Seeded users, schools, scenarios, and scores
+├── src/lib/engines/   Evacuation, scoring, and recommendations
+├── src/lib/auth.ts    Demo credential validation
+├── src/lib/store.ts   Application state
+├── src/lib/supabase.ts
+└── supabase/schema.sql
+```
 
-Example:
-# 🔥 FIRE DETECTED
+## Prototype scope
 
-You are in Block B, Floor 2.
-
-The nearest staircase is blocked.
-
-What do you do?
-
-[ Use Staircase A ]
-[ Use Elevator ]
-[ Wait for Instructions ]
-
-# System Architecture
-
-                    ┌─────────────────┐
-                    │    Students     │
-                    └────────┬────────┘
-                             │
-                    ┌────────▼────────┐
-                    │     Teachers    │
-                    └────────┬────────┘
-                             │
-                    ┌────────▼────────┐
-                    │      Admin      │
-                    └────────┬────────┘
-                             │
-                             ▼
-                  ┌─────────────────────┐
-                  │   Surakhsa OS API   │
-                  │   Backend Services  │
-                  └──────────┬──────────┘
-                             │
-              ┌──────────────┼──────────────┐
-              ▼              ▼              ▼
-        ┌──────────┐   ┌──────────┐   ┌────────────┐
-        │ Database │   │ AI/ML    │   │ Notifications│
-        └──────────┘   └──────────┘   └────────────┘
-
-# Main Modules: 
-                Surakhsa OS
-                │
-                ├── Authentication
-                │
-                ├── Student
-                │   ├── Dashboard
-                │   ├── Learning
-                │   ├── Simulations
-                │   └── Results
-                │
-                ├── Teacher
-                │   ├── Classes
-                │   ├── Student Analytics
-                │   └── Drills
-                │
-                ├── Administration
-                │   ├── School Setup
-                │   ├── Disaster Scenarios
-                │   ├── Drill Management
-                │   └── Emergency Control
-                │
-                ├── Emergency Mode
-                │
-                ├── Notifications
-                │
-                ├── Analytics
-                │
-                └── Offline Support
+Authentication uses demo credentials and client-side state; it is not production access control. The project demonstrates preparedness workflows and should not be relied on to direct a real emergency. Deployment with real school data requires secure authentication, authorization, and reviewed database policies.
